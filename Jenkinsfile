@@ -1,4 +1,4 @@
-node('any'){
+node {
   stage('build') {
     sh '''
       echo "GIT_COMMIT=${env.GIT_COMMIT}" > build-info.txt
