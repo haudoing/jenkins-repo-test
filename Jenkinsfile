@@ -1,11 +1,9 @@
 node {
   stage('build') {
-    sh 'env > env.txt'
-    readFile('env.txt').split("\r?\n").each {
-        println it
-    }
+    scmVars = checkout(scm: [$class: 'GitSCM', branches: scm.branches,
+                        extensions: scm.extensions)
     sh """
-      echo "GIT_COMMIT=${env.GIT_COMMIT}" > build-info.txt
+      echo "GIT_COMMIT=${scmVars.GIT_COMMIT}" > build-info.txt
     """
   
     archiveArtifacts artifacts: 'build-info.txt', fingerprint: true
